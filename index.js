@@ -86,9 +86,9 @@ document.getElementById('makeKottanHappy').onclick = function(){
     context.fillText("=(^.^)=", 25, 125);
     context.fillStyle = "#323232";
     context.font = 'bold 18px sans';
-    context.fillText("I'll always be happy", 250, 25);
-    context.fillText("if you take this guy", 257, 45);    
-    context.fillText("on courses", 322, 65);
+    context.fillText("I'll always be happy", 255, 25);
+    context.fillText("if you let this guy", 277, 45);    
+    context.fillText("enroll your courses", 260, 65);
 }
 
 document.getElementById('cutButton').onclick = function(){
