@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="index.css">
+  <title>Kottans: intersections</title>
+</head>
+<body>
+  <div class="row-1">
+    <div class="col-1">
+      <div id="name">Polygons for kottans ^.^</div>
+      <div id="author">author: Zinchenko Alexander</div>
+    </div>
+    <div class="col-2">
+      <div class="buttons">
+        <button id="cutButton">Cut them off!</button>
+        <button id="getVertices">Show array of all vertices</button>
+        <button id="showOnlyVertices">Show only vertices</button>
+        <button id="newPoly">New polygons</button>
+        <button id="makeKottanHappy">Make kottan happy</button>
+      </div>
+    </div>
+  </div>
+  <div class="row-2">
+    <div class="col-1">
+      <div class="frame">
+        <div class="canvas-name">Canvas</div>
+        <div class="center"> 
+          <canvas id="canvas" width="410" height="410"/></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 frame">
+      <div class="console-name">Console</div>
+      <button id="newBaseBut" style="display:none">New base polygon</button>
+      <button id="newCutBut" style="display:none">New cut polygon</button>
+      <div id="polyInput"  style="display:none">
+        <div id="addNumber">
+        <p>Number of vertices</p>
+        <input id="numPeople" type="number" min="0" max="100" value="" placeholder="0" />
+        </div>
+
+        <div id="addPeople" style="display:none">
+        <p>Enter the vertices value</p>
+        <form action="" method="post" name="NewBase">
+          <div id="memberFields"></div>
+          <input type="button" value="Create new Polygon" onclick="newBase(memberFields)"/>
+        </form>
+        </div>
+      </div>
+      <div id="txt1"></div>
+  </div>
+  <script src="solution.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

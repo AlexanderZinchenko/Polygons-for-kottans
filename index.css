@@ -1,0 +1,115 @@
+body {
+  background-color: #323232;
+}
+
+.row-1 {
+  padding: 15px;
+}
+
+.row-1 .col-1 {
+  color: white;
+}
+
+.row-1 .col-2 {
+  float: right;
+}
+
+#name {
+  font-family: "Quattrocento", serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+#author {
+  font: 300 17px / 25px "Quattrocento Sans", sans-serif;
+  color: #b0b0b0;
+}
+
+.row-1 .col-2 {
+  line-height: 62px;
+}
+
+button {
+  background: #00acde;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font: 300 17px / 25px "Quattrocento Sans", sans-serif;
+  outline: none;
+}
+
+button:hover {
+  background-color: #00d1ff;
+  border: none;
+}
+
+.frame {
+  background: #f3f3f3;
+  font: 300 20px / 25px "Quattrocento Sans", sans-serif;
+  font-weight: bold;
+  border-radius: 5px;  
+  min-height: 500px;
+}
+
+.center {  
+  text-align: center;
+  margin-top: 50px;
+}
+
+.canvas-name, .console-name {
+  background: #f9f9f9;
+  padding: 15px;
+  border-top-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-topleft: 5px;
+}
+
+#txt1 {
+  display: inline-block;
+  width: 80px;
+  min-height: 460px;
+  box-sizing: border-box;
+  position:relative;
+  font-weight: normal;
+  padding: 15px;
+}
+
+.col-1 {
+  display: inline-block;
+}
+
+.row-2 .col-1 {
+  width: 45%;
+}
+
+.row-2 .col-2 {
+  width: 50%;
+  float: right;
+}
+
+#newBaseBut, #newCutBut {
+  vertical-align: top;
+  margin-left: 100px;
+  background-color: #fff166;
+  margin-top: 10px;
+}
+
+#newCutBut {
+  background-color: #ffc32a;
+}
+
+#polyInput {
+  margin: 15px;
+}
+
+input {
+  padding: 5px;
+  display: block;
+  border-radius: 10px;
+  margin: 5px;
+  outline: none;
+}
