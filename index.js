@@ -1,45 +1,6 @@
-function cut(basePoly, cutPoly){
-    var bp1, bpn, ct1, ctn;
-    
-    var cross = function(){
-        var cutPolCor = [bp1[0] - bpn[0], bp1[1] - bpn[1]];
-        basePolCor = [ct1[0] - ctn[0], ct1[1] - ctn[1]];
-        e1 = bp1[0] * bpn[1] - bp1[1] * bpn[0];
-        e2 = ct1[0] * ctn[1] - ct1[1] * ctn[0];
-        e3 = 1.0 / (cutPolCor[0] * basePolCor[1] - cutPolCor[1] * basePolCor[0]);
-        return [(e1*basePolCor[0] - e2*cutPolCor[0]) * e3, (e1*basePolCor[1] - e2*cutPolCor[1]) * e3];
-    };
-
-    var inside = function(a){
-        return (bpn[0]-bp1[0])*(a[1]-bp1[1]) > (bpn[1]-bp1[1])*(a[0]-bp1[0]);
-    };
-    
-    var finalCor = basePoly;
-    bp1 = cutPoly[cutPoly.length-1];
-    for(i in cutPoly){
-        var bpn = cutPoly[i];
-        var startCorList = finalCor;
-        finalCor = [];
-        ct1 = startCorList[startCorList.length-1]; 
-        for(j in startCorList){
-            var ctn = startCorList[j];
-            if(inside(ctn)){
-                if(!inside(ct1)){
-                    finalCor.push(cross());
-                }
-            finalCor.push(ctn);
-            }
-            else if(inside(ct1)){
-                finalCor.push(cross());
-            }
-            ct1 = ctn;
-        }
-        bp1 = bpn;
-    }
-    return finalCor;
-}
 function newBase(form){
-  var basePoly = []
+  kottan = false;
+  basePoly = []
   var children = form.childNodes.length;
   for (i=0; i<children; i++){
     var elem = 'member' + i;
@@ -52,8 +13,29 @@ function newBase(form){
   }
   drawPolygon(context, basePoly, '#888','#fff166');
   document.getElementById('polyInput').style.display='none';
+  allVertices = finalPolygons.concat(basePoly, cutPoly);
   return basePoly;
 }
+
+function newCut(form){
+  kottan = false;
+  cutPoly = []
+  var children = form.childNodes.length;
+  for (i=0; i<children; i++){
+    var elem = 'member' + i;
+    var myStack = document.getElementById(elem).value;
+    var myStack  = myStack.split(',');
+    var myStackInt0 = +myStack[0];
+    var myStackInt1 = +myStack[1];
+    var myStackInt = [myStackInt0, myStackInt1];
+    cutPoly.push(myStackInt);
+  }
+  drawPolygon(context, cutPoly, '#888','#ffc32a');
+  document.getElementById('polyInput').style.display='none';
+  allVertices = finalPolygons.concat(basePoly, cutPoly);
+  return cutPoly;
+}
+
 
 function drawPolygon(context, polygon, strokeStyle, fillStyle) {
     context.strokeStyle = strokeStyle;
@@ -70,6 +52,7 @@ function drawPolygon(context, polygon, strokeStyle, fillStyle) {
 
 document.getElementById('makeKottanHappy').onclick = function(){  
     context.clearRect(0, 0, canvas.width, canvas.height);
+    kottanFunk();
     tailPoly = [
                 [290, 270], //hvost
                 [345, 183],
@@ -93,18 +76,26 @@ document.getElementById('makeKottanHappy').onclick = function(){
 
 document.getElementById('cutButton').onclick = function(){
     context.clearRect(0, 0, canvas.width, canvas.height);
-    drawPolygon(context, tailPoly, '#8f8','#8f8');
+    if (kottan == true){
+      drawPolygon(context, tailPoly, '#8f8','#8f8');
+    }
+    finalPolygons = cut(basePoly, cutPoly);
+    allVertices = finalPolygons.concat(basePoly, cutPoly);
+
     drawPolygon(context, basePoly, '#fff','#8f8');
     drawPolygon(context, cutPoly, '#8f8','#8f8');
     drawPolygon(context, finalPolygons, '#f3f3f3','#f3f3f3');
 }
 
 document.getElementById('getVertices').onclick = function(){
+    document.getElementById('newBaseBut').style.display='none';
+    document.getElementById('newCutBut').style.display='none';
+    document.getElementById('txt1').style.display='block';
     document.getElementById('txt1').innerHTML = allVertices.join('\n');
 }
 
 document.getElementById('newPoly').onclick = function(){
-    allVertices = [];
+    document.getElementById('txt1').style.display='none';
     document.getElementById('txt1').innerHTML = allVertices.join('\n');
 
     document.getElementById('newBaseBut').style.display='inline-block';
@@ -114,6 +105,8 @@ document.getElementById('newPoly').onclick = function(){
 document.getElementById('newBaseBut').onclick = function(){
     kottan = false;
     document.getElementById('polyInput').style.display='block';
+    document.getElementById('createNewCut').style.display='none';
+    document.getElementById('createNewBase').style.display='block';
 
     context.clearRect(0, 0, canvas.width, canvas.height);
     drawPolygon(context, cutPoly, '#888','#ffc32a');
@@ -150,7 +143,13 @@ document.getElementById('newBaseBut').onclick = function(){
 }
 
 document.getElementById('newCutBut').onclick = function(){
+    kottan = false;
     document.getElementById('polyInput').style.display='block';
+    document.getElementById('createNewBase').style.display='none';
+    document.getElementById('createNewCut').style.display='block';
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    drawPolygon(context, basePoly, '#888','#fff166');
     
     var numPeople = document.getElementById("numPeople"),
     peopleDiv = document.getElementById("addPeople"),
@@ -159,6 +158,7 @@ document.getElementById('newCutBut').onclick = function(){
     numPeople.addEventListener("input", function(e) {
 
     peopleDiv.style.display = "block";
+
     var num = numPeople.value;
 
     var numNode = memberFields.childNodes.length,
@@ -197,11 +197,15 @@ document.getElementById('showOnlyVertices').onclick = function() {
 }
 
 var context = document.getElementById('canvas').getContext('2d');
+var basePoly = [];
+var cutPoly = [];
+var tailPoly = [];
+var kottan = false;
 
-var kottan = true;
+kottanFunk = function(){
+  kottan = true;
 
-if (kottan == true){
-  var basePoly = [[30, 90],   //head top1
+  basePoly = [[30, 90],   //head top1
                   [55, 50],  //hear top2
                   [100, 30],   //head top3
                   [230, 30],  //head top4
@@ -241,10 +245,15 @@ if (kottan == true){
               [362, 186],
               [363, 193],
               [300, 305]
-             ]            
+             ]    
+
+  return  cutPoly, basePoly, tailPoly
 }
+
+var kottanList = kottanFunk();
 var finalPolygons = cut(basePoly, cutPoly);
 var allVertices = finalPolygons.concat(basePoly, cutPoly);
+
 drawPolygon(context, tailPoly, '#888','#ffc32a');
 drawPolygon(context, cutPoly, '#888','#ffc32a');
 drawPolygon(context, basePoly, '#888','#fff166');
